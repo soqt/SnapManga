@@ -1,14 +1,16 @@
-// LifeManga: 服务端代理 GPT-5-mini 编剧本
+// LifeManga: 服务端代理编剧本（使用 SuperToken 网关的 chat completions）
 // 1. 验证用户身份
 // 2. 扣除 credits
-// 3. 调用 OpenAI /v1/chat/completions
+// 3. 调用 SuperToken /v1/chat/completions
 // 4. 返回 JSON 剧本
 
 import "@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "@supabase/server";
 
-const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
-const OPENAI_ORG_ID = Deno.env.get("OPENAI_ORG_ID");
+const SUPERTOKEN_API_KEY = Deno.env.get("SUPERTOKEN_API_KEY")!;
+const SUPERTOKEN_BASE_URL = Deno.env.get("SUPERTOKEN_BASE_URL") ??
+  "https://api.supertoken.cc/v1";
+const SUPERTOKEN_CHAT_MODEL = Deno.env.get("SUPERTOKEN_CHAT_MODEL") ?? "gpt-5.5";
 
 interface StoryParams {
   images: string[];
@@ -24,7 +26,18 @@ function base64ToDataUrl(base64: string): string {
   return `data:image/jpeg;base64,${base64}`;
 }
 
-function buildSystemPrompt(styleName: string, isColor: boolean, panelCount: number): string {
+function resolveChatModel(scriptModel?: string): string {
+  if (!scriptModel) return SUPERTOKEN_CHAT_MODEL;
+  if (scriptModel.includes("5.5")) return "gpt-5.5";
+  if (scriptModel.includes("5.4")) return "gpt-5.4";
+  return SUPERTOKEN_CHAT_MODEL;
+}
+
+function buildSystemPrompt(
+  styleName: string,
+  isColor: boolean,
+  panelCount: number,
+): string {
   return `You are a manga scriptwriter. Look at the user's reference photo(s) and write a ${panelCount}-panel manga story script.
 
 Output strict JSON with this structure:
@@ -59,6 +72,13 @@ export default {
       const user = ctx.user;
       if (!user) {
         return Response.json({ error: "Unauthorized" }, { status: 401 });
+      }
+
+      if (!SUPERTOKEN_API_KEY) {
+        return Response.json(
+          { error: "Server misconfiguration: SUPERTOKEN_API_KEY not set" },
+          { status: 500 },
+        );
       }
 
       const params: StoryParams = await req.json();
@@ -113,9 +133,7 @@ export default {
 
       if (jobErr) console.error("insert job error:", jobErr);
 
-      const model = params.scriptModel?.startsWith("gpt-5")
-        ? params.scriptModel
-        : "gpt-5.4-mini";
+      const model = resolveChatModel(params.scriptModel);
 
       const messages = [
         {
@@ -143,17 +161,14 @@ export default {
         },
       ];
 
-      const headers: Record<string, string> = {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      };
-      if (OPENAI_ORG_ID) headers["OpenAI-Organization"] = OPENAI_ORG_ID;
-
-      const openaiRes = await fetch(
-        "https://api.openai.com/v1/chat/completions",
+      const response = await fetch(
+        `${SUPERTOKEN_BASE_URL.replace(/\/+$/, "")}/chat/completions`,
         {
           method: "POST",
-          headers,
+          headers: {
+            "Authorization": `Bearer ${SUPERTOKEN_API_KEY}`,
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             model,
             messages,
@@ -163,43 +178,43 @@ export default {
         },
       );
 
-      const openaiJson = await openaiRes.json();
+      const responseJson = await response.json();
 
-      if (!openaiRes.ok) {
+      if (!response.ok) {
         await ctx.supabaseAdmin.rpc("add_credits", {
           p_user_id: user.id,
           p_amount: cost,
           p_reason: "refund:generate-story-failed",
-          p_metadata: { status: openaiRes.status, body: openaiJson },
+          p_metadata: { status: response.status, body: responseJson },
         });
 
         await ctx.supabaseAdmin
           .from("generation_jobs")
           .update({
             status: "failed",
-            error_code: `OPENAI_${openaiRes.status}`,
+            error_code: `CHAT_PROVIDER_${response.status}`,
             updated_at: new Date().toISOString(),
           })
           .eq("id", job?.id ?? "00000000-0000-0000-0000-000000000000");
 
         return Response.json(
           {
-            error: "OpenAI request failed",
-            status: openaiRes.status,
-            body: openaiJson,
+            error: "Story generation failed",
+            status: response.status,
+            body: responseJson,
           },
           { status: 502 },
         );
       }
 
-      const content = (openaiJson.choices?.[0]?.message?.content as string) ??
-        "";
+      const content =
+        (responseJson.choices?.[0]?.message?.content as string) ?? "";
       let script: Record<string, unknown>;
       try {
         script = JSON.parse(content);
       } catch {
         return Response.json(
-          { error: "Failed to parse OpenAI response as JSON", raw: content },
+          { error: "Failed to parse provider response as JSON", raw: content },
           { status: 500 },
         );
       }

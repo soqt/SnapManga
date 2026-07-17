@@ -25,12 +25,12 @@
 
 | Secret | 说明 |
 |--------|------|
-| `SUPERTOKEN_API_KEY` | **必填**，SuperToken API Key（图片生成走 supertoken 网关） |
+| `SUPERTOKEN_API_KEY` | **必填**，SuperToken API Key（图片生成 + 编剧都走 supertoken） |
 | `SUPERTOKEN_IMAGE_MODELS` | 可选，默认 `gpt-image-2-count`，可填多个用逗号分隔做兜底 |
 | `SUPERTOKEN_IMAGE_BASE_URL` | 可选，默认 `https://api.supertoken.cc/image-wrapper/v1` |
-| `OPENAI_API_KEY` | 仅 `generate-story`（编剧）使用 |
-| `OPENAI_ORG_ID` | （可选）OpenAI Organization ID |
-| `APPLE_SHARED_SECRET` | App Store Connect → App → 功能 →  App 内购买项目 →  App 专用共享密钥 |
+| `SUPERTOKEN_CHAT_MODEL` | 可选，默认 `gpt-5.5`（编剧用） |
+| `SUPERTOKEN_BASE_URL` | 可选，默认 `https://api.supertoken.cc/v1`（编剧用） |
+| `APPLE_SHARED_SECRET` | 暂不需要；后续接入 RevenueCat 时再处理 |
 
 ## 3. 配置 Sign in with Apple
 
