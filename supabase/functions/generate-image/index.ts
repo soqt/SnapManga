@@ -1,15 +1,15 @@
-// LifeManga: 服务端代理 OpenAI gpt-image-2 图像生成
+// LifeManga: 服务端代理图像生成（使用 SuperToken 网关）
 // 1. 验证用户身份
 // 2. 计算并扣除 credits
-// 3. 调用 OpenAI /v1/images/edits
-// 4. 返回生成结果 URL
+// 3. 调用 SuperToken /images/edits
+// 4. 将结果上传到 Supabase Storage 并返回公开 URL
 
 import "@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "@supabase/server";
-
-// OpenAI 配置
-const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
-const OPENAI_ORG_ID = Deno.env.get("OPENAI_ORG_ID");
+import {
+  generateImagesWithSuperToken,
+  SuperTokenImageInput,
+} from "../_shared/supertokenImage.ts";
 
 // 费用表：每个请求基础费用 = 张数 × 质量倍数 × 模式倍数
 function calculateCost(params: GenerateParams): number {
@@ -106,7 +106,6 @@ Do NOT use English. Do NOT use Japanese kana.`;
   }
 }
 
-// base64 data URL / 纯 base64 转 Uint8Array
 function base64ToBytes(base64: string): Uint8Array {
   const clean = base64.replace(/^data:image\/\w+;base64,/, "");
   const bin = atob(clean);
@@ -117,63 +116,11 @@ function base64ToBytes(base64: string): Uint8Array {
   return bytes;
 }
 
-function generateBoundary(): string {
-  return "----LifeMangaBoundary" + crypto.randomUUID().replace(/-/g, "");
-}
-
-async function buildMultipartBody(
-  params: GenerateParams,
-  boundary: string,
-): Promise<Uint8Array> {
-  const encoder = new TextEncoder();
-  const chunks: Uint8Array[] = [];
-
-  const addField = (name: string, value: string) => {
-    chunks.push(
-      encoder.encode(
-        `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`,
-      ),
-    );
-  };
-
-  const prompt = buildCombinedPrompt(params);
-  addField("prompt", prompt);
-  addField("model", "gpt-image-2");
-  addField("n", String(Math.max(1, Math.min(params.n ?? 1, 4))));
-  if (params.size) addField("size", params.size);
-  if (params.quality) addField("quality", params.quality);
-
-  // 输入图片
-  const allImages: string[] = [];
-  allImages.push(...params.images);
-  if (params.previousPageImage) allImages.push(params.previousPageImage);
-  if (params.characterReferenceImages) {
-    allImages.push(...params.characterReferenceImages);
-  }
-
-  for (let i = 0; i < allImages.length; i++) {
-    const bytes = base64ToBytes(allImages[i]);
-    chunks.push(
-      encoder.encode(
-        `--${boundary}\r\nContent-Disposition: form-data; name="image[]"; filename="image_${i}.jpg"\r\nContent-Type: image/jpeg\r\n\r\n`,
-      ),
-    );
-    chunks.push(bytes);
-    chunks.push(encoder.encode("\r\n"));
-  }
-
-  chunks.push(encoder.encode(`--${boundary}--\r\n`));
-
-  // 合并
-  let totalLength = 0;
-  for (const c of chunks) totalLength += c.length;
-  const result = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const c of chunks) {
-    result.set(c, offset);
-    offset += c.length;
-  }
-  return result;
+function base64ImagesToBlobs(images: string[]): { blob: Blob; filename: string }[] {
+  return images.map((b64, i) => ({
+    blob: new Blob([base64ToBytes(b64).buffer], { type: "image/jpeg" }),
+    filename: `image_${i}.jpg`,
+  }));
 }
 
 export default {
@@ -202,6 +149,7 @@ export default {
 
       // 3. 计算费用
       const cost = calculateCost(params);
+      const n = Math.max(1, Math.min(params.n ?? 1, 4));
 
       // 4. 原子扣费（使用 admin 客户端绕过 RLS）
       const { data: deductOk, error: deductErr } = await ctx.supabaseAdmin.rpc(
@@ -211,7 +159,7 @@ export default {
           p_amount: cost,
           p_reason: `generate-image:${params.storyScript ? "story" : "simple"}`,
           p_metadata: {
-            n: params.n,
+            n,
             size: params.size,
             quality: params.quality,
             style: params.stylePrompt.slice(0, 100),
@@ -252,61 +200,54 @@ export default {
         console.error("insert job error:", jobErr);
       }
 
-      // 6. 调用 OpenAI
-      const boundary = generateBoundary();
-      const body = await buildMultipartBody(params, boundary);
+      // 6. 调用 SuperToken 生成图片
+      const allImages: string[] = [
+        ...params.images,
+        ...(params.previousPageImage ? [params.previousPageImage] : []),
+        ...(params.characterReferenceImages ?? []),
+      ];
 
-      const headers: Record<string, string> = {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": `multipart/form-data; boundary=${boundary}`,
+      const imageInput: SuperTokenImageInput = {
+        prompt: buildCombinedPrompt(params),
+        n,
+        size: params.size,
+        quality: params.quality,
+        images: base64ImagesToBlobs(allImages),
       };
-      if (OPENAI_ORG_ID) headers["OpenAI-Organization"] = OPENAI_ORG_ID;
 
-      const openaiRes = await fetch("https://api.openai.com/v1/images/edits", {
-        method: "POST",
-        headers,
-        body,
-      });
-
-      const openaiText = await openaiRes.text();
-      let openaiJson: Record<string, unknown> | null = null;
+      let urls: string[];
       try {
-        openaiJson = JSON.parse(openaiText);
-      } catch {
-        // 保留原始文本用于错误报告
-      }
-
-      if (!openaiRes.ok) {
+        urls = await generateImagesWithSuperToken(
+          ctx.supabaseAdmin,
+          user.id,
+          imageInput,
+        );
+      } catch (err) {
         // 失败时把 credits 退回去
+        const message = err instanceof Error ? err.message : String(err);
+        console.error("generate-image provider error:", err);
+
         await ctx.supabaseAdmin.rpc("add_credits", {
           p_user_id: user.id,
           p_amount: cost,
           p_reason: "refund:generate-image-failed",
-          p_metadata: { status: openaiRes.status, body: openaiText.slice(0, 500) },
+          p_metadata: { error: message.slice(0, 500) },
         });
 
         await ctx.supabaseAdmin
           .from("generation_jobs")
           .update({
             status: "failed",
-            error_code: `OPENAI_${openaiRes.status}`,
+            error_code: `IMAGE_PROVIDER_FAILED`,
             updated_at: new Date().toISOString(),
           })
           .eq("id", job?.id ?? "00000000-0000-0000-0000-000000000000");
 
         return Response.json(
-          {
-            error: "OpenAI request failed",
-            status: openaiRes.status,
-            body: openaiText.slice(0, 1000),
-          },
+          { error: "Image generation failed", details: message },
           { status: 502 },
         );
       }
-
-      const urls = (openaiJson?.data as Array<{ url?: string }> | undefined)
-        ?.map((d) => d.url)
-        .filter((u): u is string => !!u) ?? [];
 
       // 7. 更新任务 done
       if (job) {

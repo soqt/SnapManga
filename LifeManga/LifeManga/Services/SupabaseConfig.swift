@@ -11,7 +11,7 @@ enum SupabaseConfig {
     /// Supabase Project URL
     /// 本地开发：http://127.0.0.1:54321
     /// 生产环境：https://<your-project>.supabase.co
-    static let supabaseURL = URL(string: "http://127.0.0.1:54321")!
+    static let supabaseURL = URL(string: "https://ehhnovnmzxobdyoytjht.supabase.co")!
 
     /// Supabase publishable (anon) key
     /// 本地开发默认值：sb_publishable_...

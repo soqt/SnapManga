@@ -1,10 +1,11 @@
-// LifeManga: 服务端代理角色设定稿 / 动作合集生成
+// LifeManga: 服务端代理角色设定稿 / 动作合集生成（使用 SuperToken 网关）
 
 import "@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "@supabase/server";
-
-const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!;
-const OPENAI_ORG_ID = Deno.env.get("OPENAI_ORG_ID");
+import {
+  generateImagesWithSuperToken,
+  SuperTokenImageInput,
+} from "../_shared/supertokenImage.ts";
 
 interface CharacterParams {
   mode: "sheet" | "pose_sheet";
@@ -34,14 +35,11 @@ function base64ToBytes(base64: string): Uint8Array {
   return bytes;
 }
 
-function generateBoundary(): string {
-  return "----LifeMangaBoundary" + crypto.randomUUID().replace(/-/g, "");
-}
-
 function buildCharacterSheetPrompt(params: CharacterParams): string {
   const name = params.name;
   const bio = params.bio?.trim();
-  const artStyle = params.artStyle ?? "Modern Japanese anime/manga character illustration style";
+  const artStyle = params.artStyle ??
+    "Modern Japanese anime/manga character illustration style";
 
   return `Stylize the adult person in the reference photo into a polished character illustration.
 
@@ -77,52 +75,6 @@ Art style:
 ${style}
 
 Rules: ADULT character (not a child). Modest clothing. Plain white background. Match face/hair/build from reference photo. Same person in ALL poses. Real legible Chinese characters.`;
-}
-
-async function buildMultipartBody(
-  params: CharacterParams,
-  boundary: string,
-): Promise<Uint8Array> {
-  const encoder = new TextEncoder();
-  const chunks: Uint8Array[] = [];
-
-  const addField = (name: string, value: string) => {
-    chunks.push(
-      encoder.encode(
-        `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${value}\r\n`,
-      ),
-    );
-  };
-
-  const prompt = params.mode === "sheet"
-    ? buildCharacterSheetPrompt(params)
-    : buildPoseSheetPrompt(params);
-
-  addField("prompt", prompt);
-  addField("model", "gpt-image-2");
-  addField("n", "1");
-  if (params.size) addField("size", params.size);
-  if (params.quality) addField("quality", params.quality);
-
-  const bytes = base64ToBytes(params.sourceImage);
-  chunks.push(
-    encoder.encode(
-      `--${boundary}\r\nContent-Disposition: form-data; name="image[]"; filename="source.jpg"\r\nContent-Type: image/jpeg\r\n\r\n`,
-    ),
-  );
-  chunks.push(bytes);
-  chunks.push(encoder.encode("\r\n"));
-  chunks.push(encoder.encode(`--${boundary}--\r\n`));
-
-  let totalLength = 0;
-  for (const c of chunks) totalLength += c.length;
-  const result = new Uint8Array(totalLength);
-  let offset = 0;
-  for (const c of chunks) {
-    result.set(c, offset);
-    offset += c.length;
-  }
-  return result;
 }
 
 export default {
@@ -182,59 +134,55 @@ export default {
 
       if (jobErr) console.error("insert job error:", jobErr);
 
-      const boundary = generateBoundary();
-      const body = await buildMultipartBody(params, boundary);
+      const prompt = params.mode === "sheet"
+        ? buildCharacterSheetPrompt(params)
+        : buildPoseSheetPrompt(params);
 
-      const headers: Record<string, string> = {
-        "Authorization": `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": `multipart/form-data; boundary=${boundary}`,
+      const imageInput: SuperTokenImageInput = {
+        prompt,
+        n: 1,
+        size: params.size,
+        quality: params.quality,
+        images: [{
+          blob: new Blob([base64ToBytes(params.sourceImage).buffer], {
+            type: "image/jpeg",
+          }),
+          filename: "source.jpg",
+        }],
       };
-      if (OPENAI_ORG_ID) headers["OpenAI-Organization"] = OPENAI_ORG_ID;
 
-      const openaiRes = await fetch("https://api.openai.com/v1/images/edits", {
-        method: "POST",
-        headers,
-        body,
-      });
-
-      const openaiText = await openaiRes.text();
-      let openaiJson: Record<string, unknown> | null = null;
+      let urls: string[];
       try {
-        openaiJson = JSON.parse(openaiText);
-      } catch {
-        // ignore
-      }
+        urls = await generateImagesWithSuperToken(
+          ctx.supabaseAdmin,
+          user.id,
+          imageInput,
+        );
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error("generate-character provider error:", err);
 
-      if (!openaiRes.ok) {
         await ctx.supabaseAdmin.rpc("add_credits", {
           p_user_id: user.id,
           p_amount: cost,
           p_reason: "refund:generate-character-failed",
-          p_metadata: { status: openaiRes.status, body: openaiText.slice(0, 500) },
+          p_metadata: { error: message.slice(0, 500) },
         });
 
         await ctx.supabaseAdmin
           .from("generation_jobs")
           .update({
             status: "failed",
-            error_code: `OPENAI_${openaiRes.status}`,
+            error_code: "IMAGE_PROVIDER_FAILED",
             updated_at: new Date().toISOString(),
           })
           .eq("id", job?.id ?? "00000000-0000-0000-0000-000000000000");
 
         return Response.json(
-          {
-            error: "OpenAI request failed",
-            status: openaiRes.status,
-            body: openaiText.slice(0, 1000),
-          },
+          { error: "Image generation failed", details: message },
           { status: 502 },
         );
       }
-
-      const urls = (openaiJson?.data as Array<{ url?: string }> | undefined)
-        ?.map((d) => d.url)
-        .filter((u): u is string => !!u) ?? [];
 
       if (job) {
         await ctx.supabaseAdmin

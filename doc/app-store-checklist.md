@@ -25,7 +25,10 @@
 
 | Secret | 说明 |
 |--------|------|
-| `OPENAI_API_KEY` | OpenAI API Key（用于调用 gpt-image-2） |
+| `SUPERTOKEN_API_KEY` | **必填**，SuperToken API Key（图片生成走 supertoken 网关） |
+| `SUPERTOKEN_IMAGE_MODELS` | 可选，默认 `gpt-image-2-count`，可填多个用逗号分隔做兜底 |
+| `SUPERTOKEN_IMAGE_BASE_URL` | 可选，默认 `https://api.supertoken.cc/image-wrapper/v1` |
+| `OPENAI_API_KEY` | 仅 `generate-story`（编剧）使用 |
 | `OPENAI_ORG_ID` | （可选）OpenAI Organization ID |
 | `APPLE_SHARED_SECRET` | App Store Connect → App → 功能 →  App 内购买项目 →  App 专用共享密钥 |
 
