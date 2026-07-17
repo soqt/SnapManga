@@ -1,0 +1,508 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0076D250C983140E2CBC73D6 /* MangaStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D55ED2812F0AC4696140CE /* MangaStyle.swift */; };
+		9E515598DDDEECA0504D6BB9 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = CB23537B333221B4ECBC2607 /* Supabase */; };
+		0F0E04415B60290E29D9905D /* MangaGeneratorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0618FBA624A0168ACD7D1E /* MangaGeneratorViewModel.swift */; };
+		285253843CEF74D5F169BB9C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB9EF7EC18A94EAE24F4F60 /* ContentView.swift */; };
+		3637EB728D60A7127ADF5F90 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265B945430E3AD6B3A792890 /* KeychainService.swift */; };
+		4694BC21F0FCEAB029F98AD3 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944D6D7F859779B76D3AF8D0 /* OpenAIService.swift */; };
+		4A4C2627C8CC56976899B982 /* MangaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C474F02D2C187F60EE1D21DE /* MangaItem.swift */; };
+		5F2F102EB02547243DFCAEFE /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793E99F57C2B144693C401B8 /* AppSettings.swift */; };
+		97AC35B975E80100B430FDA5 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2A4C85DEBDA2F1CB3DFE17 /* ImagePickerView.swift */; };
+		994EB2871A780EAEE2B301C1 /* MangaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3890F3D600521FE2F1948A90 /* MangaDetailView.swift */; };
+		9E0FDDDB58D80923D61C4FE4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 544A397B6C9350870A37AE4E /* Preview Assets.xcassets */; };
+		9F79337D0E18D8DB1A9DF699 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C99D25D6EA17627410C7D22 /* SettingsView.swift */; };
+		B339B0754E4039DDD95061A7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B04471DF3453A1FE89FC92 /* HomeView.swift */; };
+		EB335E41050DF10E4D581765 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A45D12FC45F6E32F96BA41C /* Assets.xcassets */; };
+		E77F4ADAF10D4ABCAF52E947DC195BE2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5081F3ABFBE949E19F839D9CBC6E4712 /* PrivacyInfo.xcprivacy */; };
+		F3A8CBD728A2500F695871E5 /* LifeMangaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DE3A3856D4BAAD5864E557 /* LifeMangaApp.swift */; };
+		FE84632C58736142110D7461 /* MangaStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE70774EBAC37F84E319CB5E /* MangaStorage.swift */; };
+		FEECE93C9CE24E1D2FBECB21 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FDEB7D772088A72A2231E4 /* HistoryView.swift */; };
+		9C3E38672FB3B9ED5129911D /* SupabaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD83A5D4DEABD9163ECD3BED /* SupabaseConfig.swift */; };
+		A2036B4B92271243294722D2 /* SupabaseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F362DE1F74523272782C66A /* SupabaseClient.swift */; };
+		9F5DD782681DCF6CEF4C4B9B /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F55D8D557E959BCC42A96FA /* AuthService.swift */; };
+		D32B9F2D7090A2C597D7A0EA /* CreditService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8F68DE181F86979B2D1A938 /* CreditService.swift */; };
+		A6F263DF821C980AC600516C /* GenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A7E3396AF5C00AC2184089 /* GenerationService.swift */; };
+			5443ED93F5FF4DC89E3CA191EBB5F4EE /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAD909B15E2419986B91C6E4579AECE /* SyncService.swift */; };
+		29E326A0EF68B2ECAD7BC2B6 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7515E45675031529C6B42AFE /* StoreManager.swift */; };
+		A3A065F548CD5CCE2E7CE43B /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 723FFBA2EDE2678362574703 /* AuthView.swift */; };
+		45FC582D725E9A3837F6056B /* PurchaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A079757E9EE85BDE0BE5F9A7 /* PurchaseView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1EF91E9CE1841BED4FC15AEB /* LifeManga.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeManga.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		265B945430E3AD6B3A792890 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		5081F3ABFBE949E19F839D9CBC6E4712 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2C99D25D6EA17627410C7D22 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		3890F3D600521FE2F1948A90 /* MangaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaDetailView.swift; sourceTree = "<group>"; };
+		544A397B6C9350870A37AE4E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		62D55ED2812F0AC4696140CE /* MangaStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaStyle.swift; sourceTree = "<group>"; };
+		67B04471DF3453A1FE89FC92 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		6A45D12FC45F6E32F96BA41C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		793E99F57C2B144693C401B8 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		85FDEB7D772088A72A2231E4 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		944D6D7F859779B76D3AF8D0 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		AB2A4C85DEBDA2F1CB3DFE17 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		ADB9EF7EC18A94EAE24F4F60 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C474F02D2C187F60EE1D21DE /* MangaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaItem.swift; sourceTree = "<group>"; };
+		CB0618FBA624A0168ACD7D1E /* MangaGeneratorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaGeneratorViewModel.swift; sourceTree = "<group>"; };
+		CE70774EBAC37F84E319CB5E /* MangaStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaStorage.swift; sourceTree = "<group>"; };
+		EFAD909B15E2419986B91C6E4579AECE /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		E4DE3A3856D4BAAD5864E557 /* LifeMangaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeMangaApp.swift; sourceTree = "<group>"; };
+		FD83A5D4DEABD9163ECD3BED /* SupabaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseConfig.swift; sourceTree = "<group>"; };
+		8F362DE1F74523272782C66A /* SupabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClient.swift; sourceTree = "<group>"; };
+		9F55D8D557E959BCC42A96FA /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		A8F68DE181F86979B2D1A938 /* CreditService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditService.swift; sourceTree = "<group>"; };
+		51A7E3396AF5C00AC2184089 /* GenerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerationService.swift; sourceTree = "<group>"; };
+		7515E45675031529C6B42AFE /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		723FFBA2EDE2678362574703 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		A079757E9EE85BDE0BE5F9A7 /* PurchaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC981767C62EA833B107403F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E515598DDDEECA0504D6BB9 /* Supabase in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0560651D24CAD004AA868661 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				544A397B6C9350870A37AE4E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1AD06098FF6AA1E6BC8551A8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FD83A5D4DEABD9163ECD3BED /* SupabaseConfig.swift */,
+				8F362DE1F74523272782C66A /* SupabaseClient.swift */,
+				9F55D8D557E959BCC42A96FA /* AuthService.swift */,
+				A8F68DE181F86979B2D1A938 /* CreditService.swift */,
+				51A7E3396AF5C00AC2184089 /* GenerationService.swift */,
+				7515E45675031529C6B42AFE /* StoreManager.swift */,
+				265B945430E3AD6B3A792890 /* KeychainService.swift */,
+				944D6D7F859779B76D3AF8D0 /* OpenAIService.swift */,
+				CE70774EBAC37F84E319CB5E /* MangaStorage.swift */,
+				EFAD909B15E2419986B91C6E4579AECE /* SyncService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		3C9D7F1ECE6B1C2C05B9A223 = {
+			isa = PBXGroup;
+			children = (
+				FDBDEEC77EA1DB023A30F615 /* LifeManga */,
+				5ADE8A4128725EB9150C196B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3F7FC70FD57E951A9D0C4219 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				62D55ED2812F0AC4696140CE /* MangaStyle.swift */,
+				793E99F57C2B144693C401B8 /* AppSettings.swift */,
+				C474F02D2C187F60EE1D21DE /* MangaItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5ADE8A4128725EB9150C196B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1EF91E9CE1841BED4FC15AEB /* LifeManga.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B0FFD96441F567D84DB33715 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CB0618FBA624A0168ACD7D1E /* MangaGeneratorViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F3E5B61ACB3D942D0C643D2C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				723FFBA2EDE2678362574703 /* AuthView.swift */,
+				A079757E9EE85BDE0BE5F9A7 /* PurchaseView.swift */,
+				2C99D25D6EA17627410C7D22 /* SettingsView.swift */,
+				3890F3D600521FE2F1948A90 /* MangaDetailView.swift */,
+				67B04471DF3453A1FE89FC92 /* HomeView.swift */,
+				85FDEB7D772088A72A2231E4 /* HistoryView.swift */,
+				AB2A4C85DEBDA2F1CB3DFE17 /* ImagePickerView.swift */,
+				ADB9EF7EC18A94EAE24F4F60 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FDBDEEC77EA1DB023A30F615 /* LifeManga */ = {
+			isa = PBXGroup;
+			children = (
+				6A45D12FC45F6E32F96BA41C /* Assets.xcassets */,
+				5081F3ABFBE949E19F839D9CBC6E4712 /* PrivacyInfo.xcprivacy */,
+				E4DE3A3856D4BAAD5864E557 /* LifeMangaApp.swift */,
+				3F7FC70FD57E951A9D0C4219 /* Models */,
+				1AD06098FF6AA1E6BC8551A8 /* Services */,
+				B0FFD96441F567D84DB33715 /* ViewModels */,
+				F3E5B61ACB3D942D0C643D2C /* Views */,
+				0560651D24CAD004AA868661 /* Preview Content */,
+			);
+			path = LifeManga;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F762108CA727F0BCD961FC74 /* LifeManga */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65CFBDA8064788544E58E96C /* Build configuration list for PBXNativeTarget "LifeManga" */;
+			buildPhases = (
+				CD691BBBE993DA89463DFB43 /* Sources */,
+				EC981767C62EA833B107403F /* Frameworks */,
+				984AA73C6A3518E356174B49 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LifeManga;
+			packageProductDependencies = (
+				CB23537B333221B4ECBC2607 /* Supabase */,
+			);
+			productName = LifeManga;
+			productReference = 1EF91E9CE1841BED4FC15AEB /* LifeManga.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4907EFA227030F13220C7AA7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F762108CA727F0BCD961FC74 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 7461867F13008DB35547B428 /* Build configuration list for PBXProject "LifeManga" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"zh-Hans",
+			);
+			mainGroup = 3C9D7F1ECE6B1C2C05B9A223;
+			packageReferences = (
+				CD67FE1CF5F168553A28BE41 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
+			productRefGroup = 5ADE8A4128725EB9150C196B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F762108CA727F0BCD961FC74 /* LifeManga */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		984AA73C6A3518E356174B49 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB335E41050DF10E4D581765 /* Assets.xcassets in Resources */,
+				E77F4ADAF10D4ABCAF52E947DC195BE2 /* PrivacyInfo.xcprivacy in Resources */,
+				9E0FDDDB58D80923D61C4FE4 /* Preview Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CD691BBBE993DA89463DFB43 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3A8CBD728A2500F695871E5 /* LifeMangaApp.swift in Sources */,
+				285253843CEF74D5F169BB9C /* ContentView.swift in Sources */,
+				B339B0754E4039DDD95061A7 /* HomeView.swift in Sources */,
+				9C3E38672FB3B9ED5129911D /* SupabaseConfig.swift in Sources */,
+				A2036B4B92271243294722D2 /* SupabaseClient.swift in Sources */,
+				9F5DD782681DCF6CEF4C4B9B /* AuthService.swift in Sources */,
+				D32B9F2D7090A2C597D7A0EA /* CreditService.swift in Sources */,
+				A6F263DF821C980AC600516C /* GenerationService.swift in Sources */,
+				29E326A0EF68B2ECAD7BC2B6 /* StoreManager.swift in Sources */,
+				A3A065F548CD5CCE2E7CE43B /* AuthView.swift in Sources */,
+				45FC582D725E9A3837F6056B /* PurchaseView.swift in Sources */,
+				FEECE93C9CE24E1D2FBECB21 /* HistoryView.swift in Sources */,
+				994EB2871A780EAEE2B301C1 /* MangaDetailView.swift in Sources */,
+				9F79337D0E18D8DB1A9DF699 /* SettingsView.swift in Sources */,
+				97AC35B975E80100B430FDA5 /* ImagePickerView.swift in Sources */,
+				0F0E04415B60290E29D9905D /* MangaGeneratorViewModel.swift in Sources */,
+				0076D250C983140E2CBC73D6 /* MangaStyle.swift in Sources */,
+				4A4C2627C8CC56976899B982 /* MangaItem.swift in Sources */,
+				5F2F102EB02547243DFCAEFE /* AppSettings.swift in Sources */,
+				3637EB728D60A7127ADF5F90 /* KeychainService.swift in Sources */,
+				4694BC21F0FCEAB029F98AD3 /* OpenAIService.swift in Sources */,
+				FE84632C58736142110D7461 /* MangaStorage.swift in Sources */,
+				5443ED93F5FF4DC89E3CA191EBB5F4EE /* SyncService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0E91368641BB90483811A366 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LifeManga/Preview Content\"";
+				DEVELOPMENT_TEAM = N4SK575992;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "漫画人生";
+				INFOPLIST_KEY_NSCameraUsageDescription = "漫画人生 需要使用相机拍摄转换素材";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "漫画人生 需要保存生成的漫画到相册";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "漫画人生 需要访问你的相册选择图片";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.lifemanga;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		876339B2E3F44CCCCB5CD3C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LifeManga/Preview Content\"";
+				DEVELOPMENT_TEAM = N4SK575992;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "漫画人生";
+				INFOPLIST_KEY_NSCameraUsageDescription = "漫画人生 需要使用相机拍摄转换素材";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "漫画人生 需要保存生成的漫画到相册";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "漫画人生 需要访问你的相册选择图片";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.lifemanga;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F79D104030EA29B22025BA4F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F8DC631EE034A909797B6BCB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CD67FE1CF5F168553A28BE41 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CB23537B333221B4ECBC2607 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD67FE1CF5F168553A28BE41 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCConfigurationList section */
+		65CFBDA8064788544E58E96C /* Build configuration list for PBXNativeTarget "LifeManga" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				876339B2E3F44CCCCB5CD3C6 /* Debug */,
+				0E91368641BB90483811A366 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7461867F13008DB35547B428 /* Build configuration list for PBXProject "LifeManga" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F79D104030EA29B22025BA4F /* Debug */,
+				F8DC631EE034A909797B6BCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4907EFA227030F13220C7AA7 /* Project object */;
+}

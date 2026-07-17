@@ -1,0 +1,65 @@
+# ─── macOS ───
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# ─── Xcode ───
+# Build artifacts
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+
+# User-specific Xcode state (windows, breakpoints, etc.)
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+
+# Build flag files
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# CocoaPods (not used here, but just in case)
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Profile data
+*.profdata
+*.profraw
+*.gcno
+*.gcda
+
+# ─── Editor / Misc ───
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ─── Local secrets / dev artifacts ───
+# 这个 App 把 API Key 存在 iOS Keychain，源码里没有 key，
+# 但万一谁本地建了 .env / Secrets.xcconfig 之类的，挡住别提交。
+.env
+*.env
+Secrets.xcconfig
+APIKey.txt
